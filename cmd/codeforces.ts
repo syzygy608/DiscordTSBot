@@ -122,7 +122,7 @@ async function interactHandler(client: DiscordJs.Client<boolean>, interaction: D
                 var seconds = new Date().getTime() / 1000;
                 for(let i = data.length - 1; i >= 0; i -= 1)
                 {
-                    let sec = data[data.length - 1]['startTime'];
+                    let sec = data[i]['startTime'];
                     let time = new Date(0);
                     time.setSeconds(sec);
                     let normalDate = time.toLocaleString('en-US',{timeZone:'Asia/Taipei'});
@@ -173,7 +173,7 @@ async function interactHandler(client: DiscordJs.Client<boolean>, interaction: D
                 time.setSeconds(sec);
                 let normalDate = time.toLocaleString('en-US',{timeZone:'Asia/Taipei'});
                 embed.addFields(
-                    {name: `?名稱`, value: `${data[data.length - 1]['name']}`},
+                    {name: `名稱`, value: `${data[data.length - 1]['name']}`},
                     {name: `ID`, value: `${data[data.length - 1]['id']}`},
                     {name: `比賽時間`, value: normalDate},
                     {name: `比賽時長`, value: `${(parseInt(data[data.length - 1]['time']) / 60)}`},
