@@ -40,6 +40,10 @@ client.on('ready', () => {
         name: 'help',
         description: 'show all commands'
     })
+    commands?.create({
+        name: 'newest_contest',
+        description: 'show info about the newest contest'
+    })
 })
 
 client.on('messageCreate', (msg) => {
