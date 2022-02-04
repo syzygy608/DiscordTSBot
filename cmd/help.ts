@@ -10,10 +10,11 @@ async function commandHandler(client: DiscordJs.Client<boolean>, interaction: Di
             .setTitle(`機器人指令表`)
             .setDescription('機器人開發中....敬請期待 !')
             .addFields(
-                { name: '`~`ping', value: `顯示機器人延遲`, inline: false},
+                { name: '`/`ping', value: `顯示機器人延遲`, inline: false},
                 { name: '`~`info', value: `顯示伺服器資訊`, inline: false},
-                { name: '`~`contest', value: `顯示最近的cf比賽資訊`, inline: false},
-                { name: '`~`handle', value: `顯示該handle使用者資訊`, inline: false},
+                { name: '`/`contest', value: `顯示最近的cf比賽資訊`, inline: false},
+                { name: '`/`newest_contest', value: `顯示最新的cf比賽`, inline: false},
+                { name: '`/`handle', value: `顯示該handle使用者資訊`, inline: false},
                 { name: '`~`author', value: `顯示機器人作者資訊`, inline: false},
                 { name: '`~`pb [content]', value: `輸入[content]求機率`, inline: false},
                 { name: '`~`求運勢', value: `求取本日運勢`, inline: false},
