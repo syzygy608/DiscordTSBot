@@ -38,8 +38,7 @@ function commandHandler(client: DiscordJs.Client<boolean>, msg: DiscordJs.Messag
                     `${emoji}職業：資工系學生\n` +
                     `${emoji}國籍：台灣\n` +
                     `${emoji}機器撰寫語言：TypeScript\n` +
-                    `${emoji}機器語言版本：\n` +
-                    `Node ${process.version}\n\n` +
+                    `${emoji}機器語言版本：Node ${process.version}\n\n` +
                     `\`高调做事，低调做人。\`` 
                 )
                 .setImage("https://imgur.com/DOkzFfF.jpg")
