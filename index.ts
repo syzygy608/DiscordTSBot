@@ -33,6 +33,31 @@ client.on('ready', () => {
         }]
     })
     commands?.create({
+        name: 'problem',
+        description: 'reply with request problemset',
+        options:
+        [
+            {
+                name: 'lower',
+                required: true,
+                description: `diffculty lower bound`,
+                type: DiscordJs.Constants.ApplicationCommandOptionTypes.INTEGER
+            },
+            {
+                name: 'upper',
+                required: true,
+                description: `diffculty upper bound`,
+                type: DiscordJs.Constants.ApplicationCommandOptionTypes.INTEGER
+            },
+            {
+                name: 'tag',
+                required: true,
+                description: `problem tag filter`,
+                type: DiscordJs.Constants.ApplicationCommandOptionTypes.STRING
+            }
+        ]
+    })
+    commands?.create({
         name: 'contest',
         description: 'reply with upcoming contest'
     })
