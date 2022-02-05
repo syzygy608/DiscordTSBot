@@ -17,7 +17,6 @@ async function interactHandler(client: DiscordJs.Client<boolean>, interaction: D
             )
             .setFooter({text: `機器人版本 ${bot_version}`});
         interaction.reply({content: 'pong', embeds: [Embed], ephemeral: true});
-        console.log(interaction);
     }
     else if(commandName === "handle")
     {
@@ -47,7 +46,6 @@ async function interactHandler(client: DiscordJs.Client<boolean>, interaction: D
             {
                 if(error || !body)
                     return;
-                const result = [];
                 var jsonObject = JSON.parse(body);
                 if(jsonObject['status'] === "FAILED" || typeof jsonObject['result'][0] === "undefined")
                     interaction.reply({content: `handles: User with handle ${handle} not found`, ephemeral: true})
@@ -184,6 +182,75 @@ async function interactHandler(client: DiscordJs.Client<boolean>, interaction: D
             });
         };
         getContest();
+    }
+    else if(commandName === "problem")
+    {
+        var url = "problemset.problems";
+        var datas: { con: number; index: string; name: string, tags: {string: any}}[] | { [x: string]: string; }[] = [];
+        const getProblem = async function()
+        {
+            var tag = options.getString('tag');
+            if(tag && tag !== "none")
+            {
+                url += "?tags="
+                const tags = tag.split("+");
+                tags.forEach(element => {
+                    url += `${element};`
+                });
+            }
+            request({
+                url: baseUrl + url,
+                method: "GET"
+            }, function (error: any, response: any, body: string)
+            {
+                if(error || !body)
+                    return;
+                const result = [];
+                var jsonObject = JSON.parse(body);
+                if(jsonObject['result']['problems'].length === 0)
+                    interaction.reply({content: `Problems: Problems with tag ${tag} not found`, ephemeral: true})
+                else
+                {
+                    var res = jsonObject['result']['problems'];
+                    var lower = options.getInteger("lower");
+                    var upper = options.getInteger("upper")
+                    var col: DiscordJs.ColorResolvable = '#000000';
+                    var Embed = new DiscordJs.MessageEmbed()
+                        .setTitle(`隨機題單: ${tag}`)
+                        .setFooter({text: `機器人版本 ${bot_version}`})
+                        .setColor(col)
+                    for(let i = 0; i < res.length; ++i)
+                        if(res[i]['rating'] >= (lower as Number) && res[i]['rating'] <= (upper as Number))
+                            datas.push({con: res[i]['contestId'], index: res[i]['index'], name: res[i]['name'], tags: res[i]['tags']})
+                    var len = (datas.length > 5) ? 5 : datas.length;
+                    if(datas.length > 5)
+                    {   
+                        var arr: number[] = [];
+                        while(arr.length < 5)
+                        {
+                            var num = Math.floor(Math.random() * datas.length);
+                            if(!arr.includes(num))
+                                arr.push(num);
+                        }
+                        for(let i = 0; i < arr.length; ++i)
+                        {
+                            var contestId = "" + datas[arr[i]]['con'];
+                            Embed.addFields({name: `[${datas[arr[i]]['name']}]`, value: `[題目連結](https://codeforces.com/problemset/problem/${contestId}/${datas[arr[i]]['index']}) tags: ${datas[arr[i]]['tags']}`},)
+                        }
+                    }
+                    else
+                    {
+                        for(let i = 0; i < len; ++i)
+                        {
+                            var contestId = "" + datas[i]['con'];
+                            Embed.addFields({name: `[${datas[i]['name']}]`, value: `[題目連結](https://codeforces.com/problemset/problem/${contestId}/${datas[i]['index']}) tags: ${datas[i]['tags']}`},)
+                        }
+                    }
+                    interaction.reply({embeds: [Embed], ephemeral: true});
+                }
+            })      
+        };
+        getProblem();
     }
 }
 
